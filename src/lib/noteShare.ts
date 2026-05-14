@@ -4,7 +4,7 @@
  * touches the server. Links expire after 7 days.
  */
 
-const EXPIRY_DAYS = 7;
+const EXPIRY_DAYS = 1;
 
 interface SharePayload {
   /** Note content */

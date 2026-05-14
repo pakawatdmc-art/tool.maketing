@@ -132,14 +132,14 @@
     "copyAll": "Copy All",
     "copied": "Copied!",
     "backToNotepad": "Go to Notepad",
-    "autoExpire": "This link expires automatically after 7 days",
+    "autoExpire": "This link expires automatically after 1 day",
     "expiresIn": "Expires in {days}d {hours}h",
     "expiresInHours": "Expires in {hours}h",
     "alreadyExpired": "Expired",
     "invalidLink": "Invalid Link",
     "invalidDesc": "This link is broken or malformed. It may have been truncated when shared.",
     "expiredTitle": "Note Expired",
-    "expiredDesc": "This shared note has expired after 7 days and is no longer available."
+    "expiredDesc": "This shared note has expired after 1 day and is no longer available."
   },
   "FAQ": {
     "title": "Frequently Asked Questions",
