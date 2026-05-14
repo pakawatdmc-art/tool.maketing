@@ -20,13 +20,13 @@ export default function PomodoroTool() {
   const [sessions, setSessions] = useState(0);
   const [soundEnabled, setSoundEnabled] = useState(true);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+
 
   // Create beep sound using Web Audio API
   const playBeep = useCallback(() => {
     if (!soundEnabled) return;
     try {
-      const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const ctx = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
       const oscillator = ctx.createOscillator();
       const gainNode = ctx.createGain();
       
@@ -53,43 +53,52 @@ export default function PomodoroTool() {
     }
   }, [soundEnabled]);
 
+  const switchMode = useCallback((newMode: PomodoroMode) => {
+    setMode(newMode);
+    setIsActive(false);
+    setTimeLeft(MODES[newMode].duration);
+  }, []);
+
   useEffect(() => {
     if (isActive && timeLeft > 0) {
       intervalRef.current = setInterval(() => {
         setTimeLeft((t) => t - 1);
       }, 1000);
     } else if (timeLeft === 0 && isActive) {
-      setIsActive(false);
-      playBeep();
-      
-      // Auto-advance logic
-      if (mode === "work") {
-        const newSessions = sessions + 1;
-        setSessions(newSessions);
+      // Avoid calling setState synchronously in an effect
+      setTimeout(() => {
+        setIsActive(false);
+        playBeep();
         
-        // After 4 work sessions, take a long break
-        if (newSessions % 4 === 0) {
-          switchMode("longBreak");
+        // Auto-advance logic
+        if (mode === "work") {
+          const newSessions = sessions + 1;
+          setSessions(newSessions);
+          
+          // After 4 work sessions, take a long break
+          if (newSessions % 4 === 0) {
+            switchMode("longBreak");
+          } else {
+            switchMode("shortBreak");
+          }
         } else {
-          switchMode("shortBreak");
+          switchMode("work");
         }
-      } else {
-        switchMode("work");
-      }
-      
-      // Show browser notification
-      if ("Notification" in window && Notification.permission === "granted") {
-        new Notification(
-          mode === "work" ? t("breakNotifTitle") : t("workNotifTitle"),
-          { body: mode === "work" ? t("breakNotifBody") : t("workNotifBody") }
-        );
-      }
+        
+        // Show browser notification
+        if ("Notification" in window && Notification.permission === "granted") {
+          new Notification(
+            mode === "work" ? t("breakNotifTitle") : t("workNotifTitle"),
+            { body: mode === "work" ? t("breakNotifBody") : t("workNotifBody") }
+          );
+        }
+      }, 0);
     }
 
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [isActive, timeLeft, mode, sessions, playBeep]);
+  }, [isActive, timeLeft, mode, sessions, playBeep, switchMode, t]);
 
   // Request notification permission
   useEffect(() => {
@@ -109,7 +118,7 @@ export default function PomodoroTool() {
     }
     
     return () => { document.title = "2FA Tools"; };
-  }, [timeLeft, isActive, mode]);
+  }, [timeLeft, isActive, mode, t]);
 
   const toggleTimer = () => {
     setIsActive(!isActive);
@@ -118,12 +127,6 @@ export default function PomodoroTool() {
   const resetTimer = () => {
     setIsActive(false);
     setTimeLeft(MODES[mode].duration);
-  };
-
-  const switchMode = (newMode: PomodoroMode) => {
-    setMode(newMode);
-    setIsActive(false);
-    setTimeLeft(MODES[newMode].duration);
   };
 
   const skipToNext = () => {

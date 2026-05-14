@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { Search, Play, Square, Copy, Check, Trash2, Link as LinkIcon, Loader2, AlertCircle } from "lucide-react";
+import { Search, Play, Square, Copy, Check, Trash2, Link as LinkIcon, AlertCircle } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 export default function GetUidPage() {
@@ -59,8 +59,8 @@ export default function GetUidPage() {
         
         const data = await res.json();
         
-        const newSuccess = data.results.filter((r: any) => r.status === 'success').map((r: any) => ({ url: r.url, uid: r.uid }));
-        const newFail = data.results.filter((r: any) => r.status === 'fail').map((r: any) => r.url);
+        const newSuccess = data.results.filter((r: { status: string, url: string, uid?: string }) => r.status === 'success').map((r: { url: string, uid: string }) => ({ url: r.url, uid: r.uid }));
+        const newFail = data.results.filter((r: { status: string, url: string }) => r.status === 'fail').map((r: { url: string }) => r.url);
         
         localSuccess = [...localSuccess, ...newSuccess];
         localFail = [...localFail, ...newFail];
@@ -71,8 +71,8 @@ export default function GetUidPage() {
         processed += chunk.length;
         setProgress(processed);
         
-      } catch (err: any) {
-        if (err.name === 'AbortError') {
+      } catch (err: unknown) {
+        if (err instanceof Error && err.name === 'AbortError') {
           console.log('Aborted');
         } else {
           console.error("Chunk failed", err);

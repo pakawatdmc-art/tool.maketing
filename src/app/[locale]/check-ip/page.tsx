@@ -43,8 +43,8 @@ export default function CheckIpPage() {
       }
       
       setData(result);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : String(err));
       setData(null);
     } finally {
       setLoading(false);
@@ -52,7 +52,9 @@ export default function CheckIpPage() {
   };
 
   useEffect(() => {
-    fetchIpData();
+    setTimeout(() => {
+      fetchIpData();
+    }, 0);
   }, []);
 
   const handleSearch = (e: React.FormEvent) => {

@@ -46,7 +46,7 @@ export default function ReverseTextTool() {
       <div className="flex flex-wrap gap-2 items-center">
         <select 
           value={mode}
-          onChange={(e) => setMode(e.target.value as any)}
+          onChange={(e) => setMode(e.target.value as "words" | "characters" | "lines")}
           className="bg-background border border-input rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
         >
           <option value="words">{t("modeWords")}</option>

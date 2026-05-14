@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { Copy, Trash2, Check, Calendar, AlertCircle, Info } from "lucide-react";
+import { Copy, Trash2, Check, Calendar, Info } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 // Facebook UID ranges based on known data
@@ -55,8 +55,6 @@ export default function UidToYearTool() {
     if (!uid || !/^\d+$/.test(uid)) {
       return { year: "Invalid UID", note: "ต้องเป็นตัวเลขเท่านั้น" };
     }
-
-    const numericUid = BigInt(uid);
 
     // Very old accounts (UID < 100000000)
     if (uid.length < 9) {

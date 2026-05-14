@@ -4,10 +4,6 @@ import { useState } from "react";
 import { HelpCircle, ChevronDown, ChevronUp, Shield, Settings, MonitorSmartphone } from "lucide-react";
 import { useTranslations } from "next-intl";
 
-type FAQItem = {
-  question: string;
-  answer: string;
-};
 
 export default function FAQPage() {
   const t = useTranslations("FAQ");

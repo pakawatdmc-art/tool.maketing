@@ -61,7 +61,7 @@ export default function FilterTool() {
           <label className="text-sm font-medium">{t("mode")}</label>
           <select 
             value={mode}
-            onChange={(e) => setMode(e.target.value as any)}
+            onChange={(e) => setMode(e.target.value as "include" | "exclude")}
             className="w-32 bg-background border border-input rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
           >
             <option value="include">{t("include")}</option>

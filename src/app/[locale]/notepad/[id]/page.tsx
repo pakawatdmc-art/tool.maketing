@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, use } from "react";
 import { useRouter } from "next/navigation";
-import { FileText, Plus, Save, Loader2, Share2, Copy, Check, Clock, AlertCircle } from "lucide-react";
+import { FileText, Plus, Loader2, Share2, Check, Clock, AlertCircle } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 export default function NoteViewPage({ params }: { params: Promise<{ id: string }> }) {
@@ -13,7 +13,7 @@ export default function NoteViewPage({ params }: { params: Promise<{ id: string 
   
   const [content, setContent] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [isSaving, setIsSaving] = useState(false);
+
   const [saveStatus, setSaveStatus] = useState<"saved" | "saving" | "error" | "typing">("saved");
   const [lastSavedAt, setLastSavedAt] = useState<number | null>(null);
   const [copied, setCopied] = useState(false);
@@ -49,7 +49,6 @@ export default function NoteViewPage({ params }: { params: Promise<{ id: string 
 
   // Auto-save logic
   const saveNote = useCallback(async (currentContent: string) => {
-    setIsSaving(true);
     setSaveStatus("saving");
     try {
       const res = await fetch(`/api/notepad/${noteId}`, {
@@ -66,8 +65,6 @@ export default function NoteViewPage({ params }: { params: Promise<{ id: string 
     } catch (err) {
       console.error(err);
       setSaveStatus("error");
-    } finally {
-      setIsSaving(false);
     }
   }, [noteId]);
 

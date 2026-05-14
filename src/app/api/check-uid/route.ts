@@ -34,7 +34,7 @@ export async function POST(request: Request) {
           }
           
           return { uid, status: 'die' };
-        } catch (_e) {
+        } catch {
           return { uid, status: 'die' };
         }
       })

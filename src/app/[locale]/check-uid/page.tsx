@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { CheckCircle, XCircle, Play, Square, Copy, Check, Trash2, ListChecks, Loader2 } from "lucide-react";
+import { CheckCircle, XCircle, Play, Square, Copy, Check, Trash2, ListChecks } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 export default function CheckUidPage() {
@@ -60,8 +60,8 @@ export default function CheckUidPage() {
         
         const data = await res.json();
         
-        const newLive = data.results.filter((r: any) => r.status === 'live').map((r: any) => r.uid);
-        const newDie = data.results.filter((r: any) => r.status === 'die').map((r: any) => r.uid);
+        const newLive = data.results.filter((r: { status: string, uid: string }) => r.status === 'live').map((r: { uid: string }) => r.uid);
+        const newDie = data.results.filter((r: { status: string, uid: string }) => r.status === 'die').map((r: { uid: string }) => r.uid);
         
         localLive = [...localLive, ...newLive];
         localDie = [...localDie, ...newDie];
@@ -72,8 +72,8 @@ export default function CheckUidPage() {
         processed += chunk.length;
         setProgress(processed);
         
-      } catch (err: any) {
-        if (err.name === 'AbortError') {
+      } catch (err: unknown) {
+        if (err instanceof Error && err.name === 'AbortError') {
           console.log('Aborted');
         } else {
           console.error("Chunk failed", err);

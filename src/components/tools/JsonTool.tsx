@@ -19,8 +19,8 @@ export default function JsonTool() {
       }
       const parsed = JSON.parse(input);
       setOutput(JSON.stringify(parsed, null, 2));
-    } catch (err: any) {
-      setError(err.message || "Invalid JSON format");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Invalid JSON format");
     }
   };
 
@@ -33,8 +33,8 @@ export default function JsonTool() {
       }
       const parsed = JSON.parse(input);
       setOutput(JSON.stringify(parsed));
-    } catch (err: any) {
-      setError(err.message || "Invalid JSON format");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Invalid JSON format");
     }
   };
 
