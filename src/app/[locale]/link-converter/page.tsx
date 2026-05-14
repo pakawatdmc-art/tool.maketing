@@ -77,7 +77,7 @@ export default function LinkConverterPage() {
       {/* Converter Box */}
       <div className="bg-card border border-border rounded-2xl shadow-sm p-6 mb-6">
         <label className="text-sm font-medium mb-2 block">{t("inputLabel")}</label>
-        <div className="flex gap-3">
+        <div className="flex flex-col sm:flex-row gap-3">
           <input
             type="url"
             value={inputUrl}
@@ -88,7 +88,7 @@ export default function LinkConverterPage() {
           />
           <button
             onClick={handleConvert}
-            className="flex items-center bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700 px-6 py-3 rounded-lg font-medium transition-all shadow-sm hover:shadow-md shrink-0"
+            className="flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700 px-6 py-3 rounded-lg font-medium transition-all shadow-sm hover:shadow-md shrink-0 w-full sm:w-auto"
           >
             <ArrowRight className="w-4 h-4 mr-2" />
             {t("convertBtn")}
@@ -103,16 +103,16 @@ export default function LinkConverterPage() {
         {convertedUrl && (
           <div className="mt-5 space-y-3">
             <label className="text-sm font-medium block">{t("resultLabel")}</label>
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-2">
               <input
                 type="text"
                 value={convertedUrl}
                 readOnly
-                className="flex-grow bg-muted/50 border border-border rounded-lg px-4 py-3 text-sm font-mono select-all"
+                className="flex-grow bg-muted/50 border border-border rounded-lg px-4 py-3 text-sm font-mono select-all w-full"
               />
               <button
                 onClick={handleCopy}
-                className={`flex items-center px-4 py-3 rounded-lg font-medium transition-all shrink-0 ${
+                className={`flex items-center justify-center px-4 py-3 rounded-lg font-medium transition-all shrink-0 w-full sm:w-auto ${
                   copied
                     ? "bg-green-500 text-white"
                     : "bg-secondary text-secondary-foreground hover:bg-secondary/80 border border-border"
