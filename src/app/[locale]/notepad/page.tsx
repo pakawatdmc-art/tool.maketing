@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { FileText, Save, Trash2, Clock, Check } from "lucide-react";
+import { FileText, Save, Trash2, Clock, Check, Share2, Link2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { createNote, updateNote, listNotes, deleteNote, type Note } from "@/lib/noteStorage";
+import { generateShareUrl } from "@/lib/noteShare";
 
 export default function NotepadPage() {
   const t = useTranslations("Notepad");
@@ -11,6 +12,7 @@ export default function NotepadPage() {
   const [notes, setNotes] = useState<Note[]>([]);
   const [activeNoteId, setActiveNoteId] = useState<string | null>(null);
   const [saveStatus, setSaveStatus] = useState<"idle" | "saved">("idle");
+  const [shareStatus, setShareStatus] = useState<"idle" | "copied" | "error">("idle");
 
   // Load existing notes from localStorage on mount
   useEffect(() => {
@@ -54,6 +56,7 @@ export default function NotepadPage() {
     setContent("");
     setActiveNoteId(null);
     setSaveStatus("idle");
+    setShareStatus("idle");
   };
 
   const handleSaveNow = () => {
@@ -64,6 +67,7 @@ export default function NotepadPage() {
     setContent(note.content);
     setActiveNoteId(note.id);
     setSaveStatus("idle");
+    setShareStatus("idle");
   };
 
   const handleDeleteNote = (id: string, e: React.MouseEvent) => {
@@ -79,6 +83,36 @@ export default function NotepadPage() {
       } else {
         setContent("");
         setActiveNoteId(null);
+      }
+    }
+  };
+
+  const handleShare = async () => {
+    if (!content.trim()) return;
+
+    try {
+      const baseUrl = window.location.origin;
+      const shareUrl = generateShareUrl(content, baseUrl);
+      
+      await navigator.clipboard.writeText(shareUrl);
+      setShareStatus("copied");
+      setTimeout(() => setShareStatus("idle"), 3000);
+    } catch {
+      // Fallback: create a temporary input to copy
+      try {
+        const baseUrl = window.location.origin;
+        const shareUrl = generateShareUrl(content, baseUrl);
+        const input = document.createElement("input");
+        input.value = shareUrl;
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand("copy");
+        document.body.removeChild(input);
+        setShareStatus("copied");
+        setTimeout(() => setShareStatus("idle"), 3000);
+      } catch {
+        setShareStatus("error");
+        setTimeout(() => setShareStatus("idle"), 3000);
       }
     }
   };
@@ -125,6 +159,28 @@ export default function NotepadPage() {
             className="flex items-center bg-secondary text-secondary-foreground hover:bg-secondary/80 px-4 py-2 rounded-lg font-medium transition-colors border border-border"
           >
             {t("newNote")}
+          </button>
+          <button
+            onClick={handleShare}
+            disabled={!content.trim()}
+            className="flex items-center bg-emerald-600 text-white hover:bg-emerald-700 px-4 py-2 rounded-lg font-medium transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            {shareStatus === "copied" ? (
+              <>
+                <Check className="w-4 h-4 mr-2" />
+                {t("linkCopied")}
+              </>
+            ) : shareStatus === "error" ? (
+              <>
+                <Link2 className="w-4 h-4 mr-2" />
+                {t("shareFailed")}
+              </>
+            ) : (
+              <>
+                <Share2 className="w-4 h-4 mr-2" />
+                {t("shareLink")}
+              </>
+            )}
           </button>
           <button
             onClick={handleSaveNow}

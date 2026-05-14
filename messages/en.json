@@ -108,7 +108,7 @@
   },
   "Notepad": {
     "title": "Notepad Online",
-    "descLocal": "Save your notes securely in your browser. Data stays on your device.",
+    "descLocal": "Save your notes securely in your browser. Share via link.",
     "saveNow": "Save Now",
     "placeholder": "Start typing your notes here...",
     "unsaved": "Start typing to create a note",
@@ -118,7 +118,27 @@
     "autoSaveEnabled": "Auto-save enabled",
     "copyContent": "Copy",
     "savedNotes": "Saved Notes",
-    "emptyNote": "Empty note"
+    "emptyNote": "Empty note",
+    "shareLink": "Share Link",
+    "linkCopied": "Link Copied!",
+    "shareFailed": "Failed"
+  },
+  "NotepadShare": {
+    "title": "Shared Note",
+    "readOnly": "Read-only",
+    "loading": "Loading note...",
+    "chars": "Characters: {count}",
+    "copyAll": "Copy All",
+    "copied": "Copied!",
+    "backToNotepad": "Go to Notepad",
+    "autoExpire": "This link expires automatically after 7 days",
+    "expiresIn": "Expires in {days}d {hours}h",
+    "expiresInHours": "Expires in {hours}h",
+    "alreadyExpired": "Expired",
+    "invalidLink": "Invalid Link",
+    "invalidDesc": "This link is broken or malformed. It may have been truncated when shared.",
+    "expiredTitle": "Note Expired",
+    "expiredDesc": "This shared note has expired after 7 days and is no longer available."
   },
   "FAQ": {
     "title": "Frequently Asked Questions",
