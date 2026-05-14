@@ -333,11 +333,12 @@
   },
   "LinkConverter": {
     "title": "Link Converter",
-    "description": "Convert your links to bypass social media restrictions. Share any URL freely on Facebook, LINE, and other platforms.",
+    "description": "Convert and shorten your links to bypass social media restrictions. Share any URL freely on Facebook, LINE, and other platforms.",
     "inputLabel": "Enter URL to convert",
     "inputPlaceholder": "https://www.example.com",
-    "convertBtn": "Convert",
-    "resultLabel": "Converted Link",
+    "convertBtn": "Convert & Shorten",
+    "convertingBtn": "Converting...",
+    "resultLabel": "Converted Short Link",
     "copyBtn": "Copy",
     "copied": "Copied!",
     "testLink": "Test this link",
@@ -345,8 +346,8 @@
     "errorInvalid": "Invalid URL format",
     "feature1Title": "Bypass Blocks",
     "feature1Desc": "Share links that are normally blocked on social media",
-    "feature2Title": "Instant Redirect",
-    "feature2Desc": "Fast redirect with no delays or waiting",
+    "feature2Title": "Auto Shorten",
+    "feature2Desc": "Automatically generates a clean short URL for sharing",
     "feature3Title": "Works Everywhere",
     "feature3Desc": "Compatible with Facebook, LINE, Discord and more"
   }
