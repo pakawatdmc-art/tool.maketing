@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { MapPin, Globe, Server, Clock, Search, Copy, Check, Navigation, Loader2 } from "lucide-react";
+import { MapPin, Globe, Server, Clock, Search, Copy, Check, Navigation, Loader2, Crosshair, Info } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 interface IpData {
@@ -22,6 +22,15 @@ interface IpData {
   error?: string;
 }
 
+interface GeoLocation {
+  lat: number;
+  lon: number;
+  accuracy: number;
+  city?: string;
+  region?: string;
+  country?: string;
+}
+
 export default function CheckIpPage() {
   const t = useTranslations("CheckIP");
   const [data, setData] = useState<IpData | null>(null);
@@ -29,6 +38,12 @@ export default function CheckIpPage() {
   const [error, setError] = useState<string | null>(null);
   const [searchInput, setSearchInput] = useState("");
   const [copied, setCopied] = useState(false);
+
+  // GPS / Browser Geolocation state
+  const [gpsLocation, setGpsLocation] = useState<GeoLocation | null>(null);
+  const [gpsLoading, setGpsLoading] = useState(false);
+  const [gpsError, setGpsError] = useState<string | null>(null);
+  const [useGps, setUseGps] = useState(false);
 
   const fetchIpData = async (ipToSearch?: string) => {
     setLoading(true);
@@ -71,6 +86,69 @@ export default function CheckIpPage() {
       setTimeout(() => setCopied(false), 2000);
     }
   };
+
+  // Request GPS location from browser
+  const requestGpsLocation = () => {
+    if (!navigator.geolocation) {
+      setGpsError("เบราว์เซอร์ของคุณไม่รองรับ GPS Geolocation");
+      return;
+    }
+
+    setGpsLoading(true);
+    setGpsError(null);
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude, accuracy } = position.coords;
+        
+        // Reverse geocode using Nominatim (OpenStreetMap) - free, no API key
+        try {
+          const res = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&accept-language=en`,
+            { headers: { 'User-Agent': '2FA-Tools/1.0' } }
+          );
+          const geoData = await res.json();
+          
+          setGpsLocation({
+            lat: latitude,
+            lon: longitude,
+            accuracy: Math.round(accuracy),
+            city: geoData.address?.city || geoData.address?.town || geoData.address?.village || geoData.address?.county || '',
+            region: geoData.address?.state || geoData.address?.province || '',
+            country: geoData.address?.country || '',
+          });
+        } catch {
+          // Even if reverse geocoding fails, we still have coordinates
+          setGpsLocation({
+            lat: latitude,
+            lon: longitude,
+            accuracy: Math.round(accuracy),
+          });
+        }
+        
+        setUseGps(true);
+        setGpsLoading(false);
+      },
+      (err) => {
+        const messages: Record<number, string> = {
+          1: "คุณปฏิเสธการเข้าถึงตำแหน่ง กรุณาอนุญาตในการตั้งค่าเบราว์เซอร์",
+          2: "ไม่สามารถระบุตำแหน่งได้ในขณะนี้",
+          3: "หมดเวลาในการขอตำแหน่ง",
+        };
+        setGpsError(messages[err.code] || "เกิดข้อผิดพลาดในการขอตำแหน่ง");
+        setGpsLoading(false);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 15000,
+        maximumAge: 0,
+      }
+    );
+  };
+
+  // Determine which coordinates to show on map
+  const displayLat = useGps && gpsLocation ? gpsLocation.lat : data?.lat ?? 0;
+  const displayLon = useGps && gpsLocation ? gpsLocation.lon : data?.lon ?? 0;
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -150,7 +228,7 @@ export default function CheckIpPage() {
             <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
               <InfoCard
                 icon={<Globe className="w-5 h-5 text-blue-500" />}
-                label="Location"
+                label="Location (IP)"
                 value={`${data.city}, ${data.regionName}`}
                 subvalue={`${data.country} (${data.countryCode})`}
               />
@@ -169,9 +247,81 @@ export default function CheckIpPage() {
               <InfoCard
                 icon={<MapPin className="w-5 h-5 text-green-500" />}
                 label="Coordinates & ZIP"
-                value={`${data.lat}, ${data.lon}`}
-                subvalue={`ZIP: ${data.zip || 'N/A'}`}
+                value={useGps && gpsLocation ? `${gpsLocation.lat.toFixed(4)}, ${gpsLocation.lon.toFixed(4)}` : `${data.lat}, ${data.lon}`}
+                subvalue={useGps && gpsLocation ? `GPS (±${gpsLocation.accuracy}m)` : `ZIP: ${data.zip || 'N/A'}`}
               />
+            </div>
+
+            {/* GPS Precision Section */}
+            <div className="lg:col-span-3 bg-card border border-border rounded-2xl p-5 shadow-sm">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div className="flex items-start gap-3">
+                  <div className="bg-blue-500/10 p-2.5 rounded-xl text-blue-500 mt-0.5">
+                    <Crosshair className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-1">ตำแหน่งจริงจาก GPS</h3>
+                    <p className="text-sm text-muted-foreground">
+                      ใช้ GPS/WiFi ของอุปกรณ์ ให้ตำแหน่งที่แม่นยำกว่า IP Geolocation
+                    </p>
+                    {gpsLocation && (
+                      <div className="mt-2 flex flex-wrap gap-2">
+                        <span className="inline-flex items-center bg-blue-500/10 text-blue-600 dark:text-blue-400 px-2.5 py-1 rounded-full text-xs font-medium">
+                          📍 {gpsLocation.city || 'N/A'}{gpsLocation.region ? `, ${gpsLocation.region}` : ''}
+                        </span>
+                        <span className="inline-flex items-center bg-green-500/10 text-green-600 dark:text-green-400 px-2.5 py-1 rounded-full text-xs font-medium">
+                          🎯 ±{gpsLocation.accuracy}m
+                        </span>
+                        {gpsLocation.country && (
+                          <span className="inline-flex items-center bg-purple-500/10 text-purple-600 dark:text-purple-400 px-2.5 py-1 rounded-full text-xs font-medium">
+                            🌍 {gpsLocation.country}
+                          </span>
+                        )}
+                      </div>
+                    )}
+                    {gpsError && (
+                      <p className="text-sm text-destructive mt-2">{gpsError}</p>
+                    )}
+                  </div>
+                </div>
+                <div className="flex gap-2 flex-shrink-0">
+                  <button
+                    onClick={requestGpsLocation}
+                    disabled={gpsLoading}
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-5 py-2.5 rounded-xl font-medium transition-colors disabled:opacity-50 flex items-center text-sm"
+                  >
+                    {gpsLoading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Crosshair className="w-4 h-4 mr-2" />}
+                    {gpsLocation ? 'อัปเดตตำแหน่ง' : 'ขอตำแหน่ง GPS'}
+                  </button>
+                  {gpsLocation && (
+                    <button
+                      onClick={() => setUseGps(!useGps)}
+                      className={`px-4 py-2.5 rounded-xl font-medium transition-colors text-sm border ${
+                        useGps 
+                          ? 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/30' 
+                          : 'bg-secondary text-secondary-foreground border-border hover:bg-secondary/80'
+                      }`}
+                    >
+                      {useGps ? '🛰️ แสดง GPS' : '📡 แสดง IP'}
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Accuracy Note */}
+            <div className="lg:col-span-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-xl p-4">
+              <div className="flex items-start gap-2.5">
+                <Info className="w-4 h-4 text-amber-600 dark:text-amber-400 mt-0.5 flex-shrink-0" />
+                <div className="text-sm text-amber-700 dark:text-amber-300">
+                  <p className="font-medium mb-1">เกี่ยวกับความแม่นยำของตำแหน่ง</p>
+                  <p className="text-xs opacity-80 leading-relaxed">
+                    ตำแหน่งจาก IP Address อ่านจากฐานข้อมูลของ ISP ซึ่งมีความแม่นยำระดับจังหวัด/ภูมิภาคเท่านั้น 
+                    หาก ISP ลงทะเบียน IP ไว้ที่ศูนย์กลางของภูมิภาค ตำแหน่งอาจไม่ตรงกับที่คุณอยู่จริง 
+                    สำหรับตำแหน่งที่แม่นยำกว่า ให้ใช้ปุ่ม &quot;ขอตำแหน่ง GPS&quot; ด้านบน ซึ่งจะใช้ GPS/WiFi ของอุปกรณ์คุณโดยตรง
+                  </p>
+                </div>
+              </div>
             </div>
 
             {/* Map */}
@@ -183,11 +333,11 @@ export default function CheckIpPage() {
                 frameBorder="0" 
                 scrolling="no" 
                 className="rounded-2xl"
-                src={`https://www.openstreetmap.org/export/embed.html?bbox=${data.lon - 0.05},${data.lat - 0.05},${data.lon + 0.05},${data.lat + 0.05}&layer=mapnik&marker=${data.lat},${data.lon}`}
+                src={`https://www.openstreetmap.org/export/embed.html?bbox=${displayLon - 0.05},${displayLat - 0.05},${displayLon + 0.05},${displayLat + 0.05}&layer=mapnik&marker=${displayLat},${displayLon}`}
               ></iframe>
               <div className="absolute top-4 right-4 bg-background/90 backdrop-blur-md px-3 py-1.5 rounded-lg border border-border shadow-sm text-xs font-medium flex items-center">
-                <span className="w-2 h-2 rounded-full bg-green-500 mr-2 animate-pulse"></span>
-                Location Approximated
+                <span className={`w-2 h-2 rounded-full mr-2 animate-pulse ${useGps && gpsLocation ? 'bg-blue-500' : 'bg-green-500'}`}></span>
+                {useGps && gpsLocation ? `GPS (±${gpsLocation.accuracy}m)` : 'IP Approximated'}
               </div>
             </div>
           </div>
