@@ -2,104 +2,104 @@
 
 ![2FA Tools Banner](public/logo.png)
 
-A comprehensive, self-hosted web utility platform built with **Next.js 16 (App Router)** and **Tailwind CSS**. Designed for digital marketers, developers, and privacy-conscious users, this platform offers a suite of tools without ads, tracking, or unnecessary server-side processing.
+แพลตฟอร์มรวบรวมเครื่องมืออเนกประสงค์แบบ Self-hosted ที่สร้างขึ้นด้วย **Next.js 16 (App Router)** และ **Tailwind CSS** ออกแบบมาสำหรับนักการตลาดดิจิทัล นักพัฒนา และผู้ที่ใส่ใจเรื่องความเป็นส่วนตัว โดยแพลตฟอร์มนี้ให้บริการเครื่องมือต่างๆ มากมายโดยไม่มีโฆษณา ไม่มีการติดตามผู้ใช้ และลดการประมวลผลบนเซิร์ฟเวอร์ที่ไม่จำเป็น
 
-> **Status:** Active Development  
-> **Languages:** English 🇬🇧 | Thai 🇹🇭 (Full i18n support)
+> **สถานะ:** กำลังพัฒนา (Active Development)  
+> **ภาษาที่รองรับ:** ภาษาไทย 🇹🇭 | ภาษาอังกฤษ 🇬🇧 (รองรับระบบหลายภาษาเต็มรูปแบบ)
 
-## ✨ Features
+## ✨ ฟีเจอร์หลัก
 
-### 🔐 Security & Identity Tools
-*   **2FA Authenticator:** Generate Time-based One-Time Passwords (TOTP) securely right in your browser. Fully offline-capable.
-*   **Check UID (Live/Die):** Bulk verify if Facebook User IDs are currently active or disabled.
-*   **Get UID:** Extract hidden numeric UIDs from Facebook profile URLs, page URLs, or usernames.
-*   **UID to Year:** Estimate the creation year of a Facebook account based on its numeric UID.
+### 🔐 เครื่องมือด้านความปลอดภัย & ยืนยันตัวตน (Security & Identity)
+*   **2FA Authenticator:** สร้างรหัสผ่านแบบใช้ครั้งเดียว (TOTP) ได้อย่างปลอดภัยผ่านเบราว์เซอร์ของคุณโดยตรง (ทำงานแบบออฟไลน์ได้ 100%)
+*   **Check UID (ตรวจสอบสถานะบัญชี):** ตรวจสอบว่า Facebook UID ยังใช้งานได้ (Live) หรือถูกระงับไปแล้ว (Die)
+*   **Get UID (ดึงไอดี):** ดึงรหัส UID ตัวเลขที่ซ่อนอยู่จากลิงก์โปรไฟล์ เพจ หรือชื่อผู้ใช้งาน (Username) ของ Facebook
+*   **UID to Year:** ประมาณการปีที่สร้างบัญชี Facebook โดยคำนวณจากช่วงรหัส UID ตัวเลข
 
-### 📝 Text & Data Manipulation
-*   **Text Editor & Cleaner:** Sort (A-Z/Z-A), trim whitespace, remove duplicates, and remove empty lines.
-*   **String Splitter & Merger:** Split long texts into manageable chunks or merge multiple lists line-by-line.
-*   **Format & Case Conversion:** Convert to UPPERCASE, lowercase, Title Case, or add line numbers.
-*   **Filter & Reverse:** Filter lines by keyword (include/exclude) or reverse characters/lines.
+### 📝 เครื่องมือจัดการข้อความ & ข้อมูล (Text & Data)
+*   **ตัวจัดการข้อความ (Text Editor):** เรียงลำดับ (A-Z/Z-A), ตัดช่องว่าง (Trim), ลบข้อมูลที่ซ้ำกัน และลบบรรทัดว่าง
+*   **เครื่องมือแยกและรวมข้อความ:** แบ่งข้อความยาวๆ ออกเป็นส่วนย่อยๆ หรือนำรายการข้อความหลายๆ บรรทัดมารวมกันได้อย่างง่ายดาย
+*   **จัดรูปแบบและตัวพิมพ์:** แปลงเป็นตัวพิมพ์ใหญ่ (UPPERCASE), ตัวพิมพ์เล็ก (lowercase), ขึ้นต้นด้วยตัวพิมพ์ใหญ่ (Title Case) หรือใส่เลขบรรทัด
+*   **ระบบกรองและกลับข้อความ:** กรองข้อความโดยใช้คีย์เวิร์ด (รวม/ไม่รวม) หรือกลับด้านตัวอักษรและบรรทัด
 
-### 🍪 Developer & Network Tools
-*   **Cookie Manager:** Extract UIDs and Tokens from raw Facebook cookies, clean dead cookies, and format them perfectly for automation tools.
-*   **IP Geolocation:** Detect your real public IP address and display detailed location data, ISP, Timezone, and map coordinates.
-*   **HTML Extractor:** Instantly extract image sources (`<img src>`) and hyperlinks (`<a href>`) from raw HTML code.
-*   **JSON Formatter:** Beautify and minify JSON payloads instantly.
+### 🍪 เครื่องมือสำหรับนักพัฒนา & เครือข่าย (Developer & Network)
+*   **จัดการ Cookie (Cookie Manager):** ดึง UID และ Token ออกจาก Cookie Facebook ดิบ, ลบ Cookie ที่เสีย และจัดรูปแบบให้พร้อมใช้งานกับเครื่องมือ Automation
+*   **ตรวจสอบ IP (IP Geolocation):** ตรวจจับ Public IP จริงของคุณ พร้อมแสดงข้อมูลสถานที่, ผู้ให้บริการ (ISP), โซนเวลา และพิกัดบนแผนที่
+*   **ดึงข้อมูล HTML (HTML Extractor):** ดึงลิงก์รูปภาพ (`<img src>`) และลิงก์เว็บไซต์ (`<a href>`) ออกจากโค้ด HTML ดิบได้ทันที
+*   **จัดรูปแบบ JSON (JSON Formatter):** จัดระเบียบโค้ด JSON ให้อ่านง่าย หรือบีบอัดขนาด (Minify) ได้ในคลิกเดียว
 
-### ⏱️ Productivity
-*   **Pomodoro Timer:** Stay focused with built-in work/break intervals and browser notifications.
-*   **Secure Notepad:** Save temporary notes locally using a lightweight SQLite database (`better-sqlite3`).
+### ⏱️ เพิ่มประสิทธิภาพการทำงาน (Productivity)
+*   **นาฬิกา Pomodoro:** ช่วยให้คุณโฟกัสกับการทำงานด้วยระบบจับเวลาทำงาน/พัก พร้อมการแจ้งเตือนบนเบราว์เซอร์
+*   **สมุดโน้ตส่วนตัว (Secure Notepad):** บันทึกข้อความชั่วคราวเก็บไว้ในเครื่องของคุณเอง ผ่านระบบฐานข้อมูล SQLite (`better-sqlite3`) น้ำหนักเบา
 
-## 🚀 Tech Stack
+## 🚀 เทคโนโลยีที่ใช้งาน (Tech Stack)
 
-*   **Framework:** [Next.js 16.2](https://nextjs.org/) (App Router)
-*   **Styling:** [Tailwind CSS v4](https://tailwindcss.com/)
-*   **Icons:** [Lucide React](https://lucide.dev/)
-*   **Internationalization:** `next-intl` (en/th)
-*   **Database:** `better-sqlite3` (for Notepad)
-*   **Theme:** `next-themes` (Dark/Light mode)
-*   **Authentication/OTP:** `otplib`
+*   **เฟรมเวิร์ก:** [Next.js 16.2](https://nextjs.org/) (App Router)
+*   **ตกแต่ง UI:** [Tailwind CSS v4](https://tailwindcss.com/)
+*   **ไอคอน:** [Lucide React](https://lucide.dev/)
+*   **ระบบหลายภาษา:** `next-intl` (รองรับ en/th)
+*   **ฐานข้อมูล:** `better-sqlite3` (ใช้สำหรับฟีเจอร์สมุดโน้ต)
+*   **ธีม:** `next-themes` (รองรับโหมดมืด/สว่าง)
+*   **ตัวจัดการรหัส 2FA:** `otplib`
 
-## 📦 Getting Started
+## 📦 วิธีการติดตั้งและการเริ่มต้นใช้งาน
 
-### Prerequisites
-*   Node.js 18.x or higher
-*   npm or yarn
+### สิ่งที่ต้องมีเบื้องต้น (Prerequisites)
+*   Node.js เวอร์ชัน 18.x ขึ้นไป
+*   npm หรือ yarn
 
-### Installation
+### ขั้นตอนการติดตั้ง
 
-1.  **Clone the repository**
+1.  **ดาวน์โหลดโปรเจกต์ (Clone repository)**
     ```bash
     git clone https://github.com/pakawatdmc-art/tool.maketing.git
     cd tool.maketing
     ```
 
-2.  **Install dependencies**
+2.  **ติดตั้ง Dependencies**
     ```bash
     npm install
     ```
 
-3.  **Setup Environment Variables**
-    Copy the example file and configure it if needed.
+3.  **ตั้งค่าตัวแปรสภาพแวดล้อม (Environment Variables)**
+    คัดลอกไฟล์ตัวอย่างและปรับเปลี่ยนค่าได้ตามต้องการ
     ```bash
     cp .env.example .env.local
     ```
 
-4.  **Run the Development Server**
+4.  **รันเซิร์ฟเวอร์สำหรับพัฒนา (Development Server)**
     ```bash
     npm run dev
     ```
-    Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+    เปิดเบราว์เซอร์และเข้าไปที่ [http://localhost:3000](http://localhost:3000) เพื่อดูผลลัพธ์
 
-## 🛠️ Project Structure
+## 🛠️ โครงสร้างของโปรเจกต์ (Project Structure)
 
 ```text
 ├── src/
 │   ├── app/
-│   │   ├── [locale]/        # i18n routing (en, th)
-│   │   ├── api/             # Server-side API routes (IP, UID check, DB)
-│   │   └── globals.css      # Global Tailwind styles & Theme variables
+│   │   ├── [locale]/        # ระบบจัดการภาษา (en, th)
+│   │   ├── api/             # ไฟล์ API ฝั่งเซิร์ฟเวอร์ (เช็ค IP, ตรวจสอบ UID, ฐานข้อมูล)
+│   │   └── globals.css      # ไฟล์ตั้งค่า CSS พื้นฐานและตัวแปรสีของธีม
 │   ├── components/
-│   │   ├── Navbar.tsx       # Main navigation & Theme toggle
-│   │   └── tools/           # Individual tool components (Authenticator, etc.)
-│   ├── i18n/                # next-intl configuration
-│   └── lib/                 # Database helpers
-├── messages/                # Translation files (en.json, th.json)
-└── data/                    # SQLite database storage (gitignored)
+│   │   ├── Navbar.tsx       # แถบเมนูด้านบนและปุ่มเปลี่ยนธีม/ภาษา
+│   │   └── tools/           # ส่วนประกอบของเครื่องมือแต่ละตัว (Authenticator ฯลฯ)
+│   ├── i18n/                # การตั้งค่าไลบรารี next-intl
+│   └── lib/                 # ฟังก์ชันช่วยเหลือและเชื่อมต่อฐานข้อมูล
+├── messages/                # ไฟล์เก็บข้อความแปลภาษา (en.json, th.json)
+└── data/                    # โฟลเดอร์เก็บฐานข้อมูล SQLite (ไม่ถูกอัปขึ้น Git)
 ```
 
-## 🔒 Privacy First
+## 🔒 นโยบายความเป็นส่วนตัว (Privacy First)
 
-We built this tool to be as private as possible:
-*   The **2FA Authenticator** generates tokens strictly on the client-side. Your secret keys are never sent to a server.
-*   Text manipulation and formatting happen completely within your browser's memory.
-*   Notes are saved to your local self-hosted SQLite instance, not a public cloud.
+เราสร้างเครื่องมือนี้ขึ้นมาโดยให้ความสำคัญกับความเป็นส่วนตัวของคุณเป็นอันดับแรก:
+*   **ระบบสร้างรหัส 2FA** ทำงานในฝั่งผู้ใช้ (Client-side) เท่านั้น รหัสลับของคุณจะไม่ถูกส่งไปยังเซิร์ฟเวอร์ใดๆ
+*   การจัดการและแก้ไขข้อความต่างๆ ทำงานอยู่ภายในหน่วยความจำเบราว์เซอร์ของคุณทั้งหมด
+*   ข้อมูลสมุดโน้ตของคุณจะถูกบันทึกในฐานข้อมูล SQLite ภายในเครื่องเซิร์ฟเวอร์ของคุณเอง ไม่ได้ถูกส่งไปเก็บไว้บนคลาวด์สาธารณะ
 
-## 🤝 Contributing
+## 🤝 การมีส่วนร่วม (Contributing)
 
-Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/pakawatdmc-art/tool.maketing/issues).
+ยินดีต้อนรับทุกท่านที่ต้องการร่วมพัฒนา แจ้งปัญหา (Issues) หรือเสนอแนะฟีเจอร์ใหม่ๆ! สามารถเข้าไปพูดคุยกันได้ที่ [หน้า Issues](https://github.com/pakawatdmc-art/tool.maketing/issues)
 
-## 📄 License
+## 📄 ลิขสิทธิ์ (License)
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+โปรเจกต์นี้อยู่ภายใต้ใบอนุญาต MIT License - ดูรายละเอียดเพิ่มเติมได้ในไฟล์ LICENSE
