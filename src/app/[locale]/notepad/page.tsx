@@ -203,10 +203,13 @@ export default function NotepadPage() {
             </div>
             <div className="flex-grow overflow-y-auto">
               {notes.map((note) => (
-                <button
+                <div
                   key={note.id}
+                  role="button"
+                  tabIndex={0}
                   onClick={() => handleSelectNote(note)}
-                  className={`w-full text-left px-4 py-3 border-b border-border/50 hover:bg-muted/50 transition-colors group ${
+                  onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") handleSelectNote(note); }}
+                  className={`w-full text-left px-4 py-3 border-b border-border/50 hover:bg-muted/50 transition-colors group cursor-pointer ${
                     activeNoteId === note.id ? "bg-primary/10 border-l-2 border-l-primary" : ""
                   }`}
                 >
@@ -225,7 +228,7 @@ export default function NotepadPage() {
                     <Clock className="w-3 h-3 mr-1" />
                     {formatTime(note.updated_at)}
                   </div>
-                </button>
+                </div>
               ))}
             </div>
           </div>
