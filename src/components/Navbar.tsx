@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
-import { Moon, Sun, Menu, X, Shield, FileText, MapPin, CheckCircle, Search, FileEdit, HelpCircle, Languages } from "lucide-react";
+import { Moon, Sun, Menu, X, Shield, FileText, MapPin, CheckCircle, Search, FileEdit, HelpCircle, Languages, Link2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useTranslations, useLocale } from "next-intl";
@@ -28,6 +28,7 @@ export function Navbar() {
     { name: t("checkIp"), href: "/check-ip", icon: MapPin },
     { name: t("checkUid"), href: "/check-uid", icon: CheckCircle },
     { name: t("getUid"), href: "/get-uid", icon: Search },
+    { name: t("linkConverter"), href: "/link-converter", icon: Link2 },
     { name: t("notepad"), href: "/notepad", icon: FileText },
     { name: t("faq"), href: "/faq", icon: HelpCircle },
   ];

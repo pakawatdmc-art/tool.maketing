@@ -5,6 +5,7 @@
     "checkIp": "Check IP",
     "checkUid": "Check UID",
     "getUid": "Get UID",
+    "linkConverter": "Link Convert",
     "notepad": "Notepad",
     "faq": "FAQ"
   },
@@ -329,5 +330,24 @@
     "breakNotifBody": "Great job! Take a well-deserved rest.",
     "workNotifTitle": "Back to work! 💪",
     "workNotifBody": "Let's get back to being productive!"
+  },
+  "LinkConverter": {
+    "title": "Link Converter",
+    "description": "Convert your links to bypass social media restrictions. Share any URL freely on Facebook, LINE, and other platforms.",
+    "inputLabel": "Enter URL to convert",
+    "inputPlaceholder": "https://www.example.com",
+    "convertBtn": "Convert",
+    "resultLabel": "Converted Link",
+    "copyBtn": "Copy",
+    "copied": "Copied!",
+    "testLink": "Test this link",
+    "errorEmpty": "Please enter a URL",
+    "errorInvalid": "Invalid URL format",
+    "feature1Title": "Bypass Blocks",
+    "feature1Desc": "Share links that are normally blocked on social media",
+    "feature2Title": "Instant Redirect",
+    "feature2Desc": "Fast redirect with no delays or waiting",
+    "feature3Title": "Works Everywhere",
+    "feature3Desc": "Compatible with Facebook, LINE, Discord and more"
   }
 }
