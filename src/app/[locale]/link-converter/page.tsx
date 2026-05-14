@@ -10,9 +10,8 @@ export default function LinkConverterPage() {
   const [convertedUrl, setConvertedUrl] = useState("");
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState("");
-  const [isConverting, setIsConverting] = useState(false);
 
-  const handleConvert = async () => {
+  const handleConvert = () => {
     setError("");
     setCopied(false);
 
@@ -38,30 +37,7 @@ export default function LinkConverterPage() {
 
     const baseUrl = window.location.origin;
     const result = `${baseUrl}/api/r?url=${encodeURIComponent(url)}`;
-    
-    setIsConverting(true);
-    try {
-      const response = await fetch('/api/shorten', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url: result })
-      });
-      
-      if (!response.ok) throw new Error('Shorten failed');
-      
-      const data = await response.json();
-      if (data.shortUrl) {
-        setConvertedUrl(data.shortUrl);
-      } else {
-        setConvertedUrl(result);
-      }
-    } catch (err) {
-      console.error(err);
-      // Fallback to long URL if shortening fails
-      setConvertedUrl(result);
-    } finally {
-      setIsConverting(false);
-    }
+    setConvertedUrl(result);
   };
 
   const handleCopy = async () => {
@@ -112,15 +88,10 @@ export default function LinkConverterPage() {
           />
           <button
             onClick={handleConvert}
-            disabled={isConverting}
-            className="flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700 px-6 py-3 rounded-lg font-medium transition-all shadow-sm hover:shadow-md shrink-0 w-full sm:w-auto disabled:opacity-70 disabled:cursor-not-allowed"
+            className="flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700 px-6 py-3 rounded-lg font-medium transition-all shadow-sm hover:shadow-md shrink-0 w-full sm:w-auto"
           >
-            {isConverting ? (
-              <div className="w-4 h-4 mr-2 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-            ) : (
-              <ArrowRight className="w-4 h-4 mr-2" />
-            )}
-            {isConverting ? t("convertingBtn", { fallback: "Converting..." }) : t("convertBtn")}
+            <ArrowRight className="w-4 h-4 mr-2" />
+            {t("convertBtn")}
           </button>
         </div>
 
